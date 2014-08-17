@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .header
+        p= queue.name
+    form(method="put", action=urls.queue.join(queue._id))
+        input(type="hidden", name="_method", value="put")
+        input.button(type="submit", value="Join Queue")
+    ul
+        each user in userList
+            li= user.twitchName
+        
+    

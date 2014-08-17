@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    p Your twitch ID: #{user.twitchCode}
+    if user.steamId
+        p Your steam ID: #{user.steamId}
+    else
+        p You need to link your twitch account to your steam account to queue for games.
+        form(action = urls.steamApi.authorize)
+            each val, key in getSteamOpenIdParams(urls.dashboard)
+                input(type="hidden", name=key, value=val)
+            input.button(type="submit", value="Connect to Steam")
+    .header
+        p Game Queues
+    if queueList
+        each queue in queueList
+            li.queue-list-item
+                .left
+                    a(href=urls.queue.display(queue._id))= queue.name
+                .right
+                    a(href=urls.queue.settings(queue._id)) Edit
+                    a(href=urls.queue.delete(queue._id)) Delete
+    else
+        i You have no queues. Create a queue so viewers can join!
+    form(method="get", action = urls.queue.create)
+        input.button(type="submit", value="Create Queue")
+
+    

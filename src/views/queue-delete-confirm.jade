@@ -1,0 +1,9 @@
+extends layout
+
+
+block content
+    p Are you sure you want to delete "#{queue.name}"?
+    #queue-delete-confirm
+        form(method="put", action=urls.queue.delete(queue._id))
+            input(type="hidden", name="_method", value="put")
+            input.button(type="submit", value="Confirm")

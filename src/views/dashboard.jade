@@ -1,28 +1,45 @@
 extends layout
 
+block styles
+    +useCSS('/stylesheets/dashboard.css')
+
 block content
-    p Your twitch ID: #{user.twitchCode}
-    if user.steamId
-        p Your steam ID: #{user.steamId}
-    else
-        p You need to link your twitch account to your steam account to queue for games.
-        form(action = urls.steamApi.authorize)
-            each val, key in getSteamOpenIdParams(urls.dashboard)
-                input(type="hidden", name=key, value=val)
-            input.button(type="submit", value="Connect to Steam")
-    .header
-        p Game Queues
-    if queueList
-        each queue in queueList
-            li.queue-list-item
-                .left
-                    a(href=urls.queue.display(queue._id))= queue.name
-                .right
-                    a(href=urls.queue.settings(queue._id)) Edit
-                    a(href=urls.queue.delete(queue._id)) Delete
-    else
-        i You have no queues. Create a queue so viewers can join!
-    form(method="get", action = urls.queue.create)
-        input.button(type="submit", value="Create Queue")
+    section.owned-queues
+        header.queue-list-header
+            h1 Queues You Own
+            form(action=urls.queue.create)
+                input.button.queue-create-button(type="submit", value="Create New")
+        if ownedList && ownedList.length > 0
+            ul.queue-list
+                each queue in ownedList
+                    li.queue-list-row
+                        .left
+                            .queue-list-col.queue-name
+                                a(href=urls.queue.display(queue._id))= queue.name
+                        .right
+                            .queue-list-col
+                                form(method="GET", action=urls.queue.settings(queue._id))
+                                    input.button(type="submit", value="Edit")
+                            .queue-list-col
+                                form(method="GET", action=urls.queue.delete(queue._id))
+                                    input.button(type="submit", value="Delete")
+        else
+            p.empty-queue-list-msg You have no queues. Create a queue so viewers can join!
+    section.joined-queues
+        header.queue-list-header
+            h1 Queues You've Joined           
+        if joinedList && joinedList.length > 0
+            ul.queue-list
+                each queue in joinedList
+                    li.queue-list-row
+                        .left
+                            .queue-list-col.queue-name
+                                a(href=urls.queue.display(queue._id))= queue.name
+                        .right
+                            .queue-list-col
+                                form(method="post", action=urls.queue.unjoin(queue._id))
+                                    input.button(type="submit", value="Leave")
+        else
+            p.empty-queue-list-msg You haven't joined any queues.
 
     

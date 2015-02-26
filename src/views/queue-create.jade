@@ -1,12 +1,15 @@
 extends layout
 
+block styles
+    +useCSS("/stylesheets/settings.css")
+
 
 block content
-    form(method="post", action=urls.queue.create)
-        label(for="name") Queue Name
-        input(type="text", name="name")
-        label(for="require_sub") Require subscription
-        input(type="checkbox", name="require_sub", value=1) 
-        label(for="require_follow") Require follow
-        input(type="checkbox", name="require_follow", value=1)
-        input.button(type="submit", value="Create")
+    h1 Create Queue
+    form.settings-form(method="post", action=urls.queue.create)
+        .form-row
+            .form-field
+                label(for="name") Name
+                input(type="text", name="name")
+            .form-field
+                input.button(type="submit", value="Create")

@@ -1,0 +1,42 @@
+extends layout
+
+block styles
+    +useCSS("/stylesheets/settings.css")
+    
+block scripts
+    script(type="text/javascript", src = urls.scripts.prioritySettingsList)
+
+block content
+    h1 Queue Settings
+    form.settings-form(method="post", action=urls.queue.settings(queue._id))
+        .form-row
+            .form-field
+                label(for="name") Name
+                input(type="text", name="name", value=queue.name)
+            .form-field
+                input(type="checkbox", name="require_sub", value=1, checked=queue.requireSub) 
+                label(for="require_sub") Require subscription
+            .form-field
+                input(type="checkbox", name="require_follow", value=1, checked=queue.requireFollow)
+                label(for="require_follow") Require follow
+        h2 Sorting Criteria
+        .priority-settings-container
+            ul.priority-settings-list
+                each setting, i in queue.prioritySettings
+                    li
+                        .form-row
+                            .form-field
+                                if i == 0
+                                    label First sort by
+                                else
+                                    label then sort by
+                                select.priority-settings-select
+                                    option(value="-1", disabled) Select a sorting criteria
+                                    option(value="games", selected = setting == "games") Least games played
+                                    option(value="subs", selected = setting == "subs") Subscribers first
+                                    option(value="follows", selected = setting == "follows") Followers first
+            button.button.priority-settings-add-button(type="button") Add Critera
+            button.button.priority-settings-remove-button(type="button") Remove Criteria
+        .form-submit-row
+            input.button(type="submit", value="Save")
+    

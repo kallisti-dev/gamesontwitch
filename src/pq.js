@@ -5,25 +5,13 @@ var async = require("async");
 
 //priority queue implementation using binary tree represented as array
 
-var PQ = module.exports = function(heap, prioritySettings, cache) {
-    this.heap = heap;
-    this.settings = prioritySettings;
-    this.cache = cache || {};
+var PQ = module.exports = function(heap, prioritySettings) {
+    this.heap = heap.slice();
+    this.settings = prioritySettings.slice();
 };
 
 PQ.prototype.getCompareVal = function(i, item, callback) {
-    var x;
-    if (this.cache[item] && (x = this.cache[item][i])) {
-        callback(null, x);
-        return;
-    }
-    this.settings[i].getCompareVal(item, function(err, result) {
-        if(result) {
-            if(!this.cache[item]) this.cache[item] = {};
-            this.cache[item][i] = result;
-        }
-        callback(err, result);
-    });  
+    this.settings[i].getCompareVal(item, callback);
 };
 
 PQ.prototype.compare = function(a, b, callback, i) {
@@ -46,86 +34,132 @@ PQ.prototype.compare = function(a, b, callback, i) {
     }));
 };
 
-PQ.prototype.clearCache = function() {
-    for(var key in this.cache) {
-        delete this.cache[member];
-    }
+PQ.prototype.rebalance = function(cb) {
+    var self = this;
+    var items = self.heap;
+    self.heap = [];
+    async.each(items, _.bind(self.enqueue, self), cb);
 };
 
-//enqueue operation. returns synchronously but optional async callback will be called
+//enqueue operation. async callback will be called
 //when queue has been properly rebalanced or when an error has occurred.
-//
 //subsequent enqueue/dequeue calls should only be made after heap has been rebalanced.
+//
+//If an error occurs, the first parameter to the callback will be the error object, and the second will be
+//a callback to resume balancing the queue.
 PQ.prototype.enqueue = function(x, callback) {
     var self = this;;
-    var heap = self.heap;
+    var heap = self.heap.slice();
     if(!callback) callback = function() { };
-    var balanceHeap = function(nodeInd) {
+    var balanceHeap = function(nodeInd, cb) {
+        var resumeCb = function(cb) { return balanceHeap(nodeInd, cb); } 
         var parentInd = Math.floor((nodeInd-1)/2);
         if(nodeInd > 0) {
-            self.compare(heap[nodeInd], heap[parentInd], $.onError(callback, function(res) {
-                if(res < 0) {
+            self.compare(heap[nodeInd], heap[parentInd], function(err, res) {
+                if(err) {
+                    cb(err, resumeCb);
+                }
+                else if(res < 0) {
                     var temp = heap[nodeInd];
                     heap[nodeInd] = heap[parentInd];
                     heap[parentInd] = temp;
-                    balanceHeap(parentInd);
+                    balanceHeap(parentInd, cb);
                 }
-                else callback(null);
-            }));
+                else {
+                    self.heap = heap;
+                    cb();
+                }
+            });
         }
-        else callback(null);
+        else {
+            self.heap = heap;
+            cb();
+        }
     };
     heap.push(x);
-    balanceHeap(heap.length - 1);
+    _.defer(balanceHeap, heap.length - 1, callback);
 };
 
 
 //dequeue operation. result is synchronous but optional async callback will be called
 //when queue has been properly rebalanced or when an error has occurred.
-//
 //subsequent enqueue/dequeue calls should only be made after heap has been rebalanced.
+//
+//If an error occurs, the first parameter to the callback will be the error object, and the second will be
+//a callback to resume balancing the queue.
 PQ.prototype.dequeue = function(callback) {
+    return this.remove(0, callback);
+};
+
+PQ.prototype.remove = function(i, callback) {
     var self = this;
-    var heap = this.heap;
+    var heap = this.heap.slice();
     if(!callback) callback = function() { };
-    if(heap.length == 1) {
-        callback(null, heap.pop());
+    if(i < 0 || i >= heap.length) {
+        callback(
+            new Error("Index " + i + " out of bounds (heap size: " + heap.length + ")"),
+            function resumeCb(cb) { self.remove(i, cb); }
+        );
         return;
     }
-    var result = heap[0];
-    heap[0] = heap.pop();
-    //async recursive heap balancing function
-    var balanceHeap = function(nodeInd) {
+    var result;
+    if(heap.length == 1) {
+        result = heap.pop();
+        self.heap = heap;
+        callback(null, result);
+        return;
+    }
+    result = heap[i];
+    heap[i] = heap.pop(); //replace removed element with the last element
+    var balanceHeap = function(nodeInd, cb) {     //async recursive heap balancing function
+        var resumeCb = function(cb) { balanceHeap(nodeInd, cb); };
         var leftInd = 2*nodeInd + 1,
             rightInd = 2*nodeInd + 2;
         if(rightInd < heap.length && leftInd < heap.length) {
             async.detect([leftInd, rightInd], //async test: (heap[leftInd] OR heap[rightInd]) < heap[nodeInd] 
                 function(i, detect) {
-                    self.compare(heap[i], heap[nodeInd], 
-                        $.onError(callback, function(result) { detect(result < 0); }))
+                    self.compare(heap[i], heap[nodeInd], function(err, r) {
+                        if(err) {
+                            cb(err, resumeCb);
+                            return;
+                        }
+                        detect(r < 0); 
+                    });
                 },
                 function(success) {
-                    if(!success) { callback(null, result); return; }
-                    var childInd = rightInd;
-                    self.compare(heap[rightInd], heap[leftInd], $.onError(callback, function(result) {
-                        if(result < 0) childInd = leftInd;
+                    if(!success) {
+                        self.heap = heap;
+                        cb(null, result); 
+                        return; 
+                    }
+                    var childInd;
+                    self.compare(heap[rightInd], heap[leftInd], function(err, r) {
+                        if(err) {
+                            cb(err, resumeCb);
+                            return;
+                        }
+                        if(r < 0) childInd = leftInd;
+                        else childInd = rightInd
+                        //swap parent with its child
                         var temp = heap[nodeInd];
                         heap[nodeInd] = heap[childInd];
                         heap[childInd] = temp;
-                        balanceHeap(childInd);
-                    }));            
+                        balanceHeap(childInd, cb);
+                    });            
             });
         }
-        else callback(null, result);
+        else {
+            self.heap = heap;
+            cb(null, result);
+        }
     };
-    balanceHeap(0);
+    _.defer(balanceHeap, i, callback);
     return result;
 };
 
-//creates a copy of the priority queue. the internal heap is copied but the sort functions
-//and cache are shared between copies.
+//creates a copy of the priority queue. the internal heap is copied but
 PQ.prototype.copy = function() {
-    return new PQ(this.heap.slice(), this.settings, this.cache);
+    return new PQ(this.heap, this.settings);
 };
 
 //traverses prio queue in removal order

@@ -1,0 +1,68 @@
+<NotepadPlus>
+    <Project name="gamesontwitch">
+        <Folder name="bin">
+            <File name="bin\www" />
+        </Folder>
+        <Folder name="src">
+            <Folder name="models">
+                <File name="src\models\index.js" />
+                <File name="src\models\queue-history.js" />
+                <File name="src\models\queue.js" />
+                <File name="src\models\schema-types.js" />
+                <File name="src\models\subscriptions-and-follows.js" />
+                <File name="src\models\user.js" />
+            </Folder>
+            <Folder name="mongoose-plugins">
+                <File name="src\mongoose-plugins\cascading-deletes.js" />
+                <File name="src\mongoose-plugins\find-one-or-create.js" />
+            </Folder>
+            <Folder name="public">
+                <Folder name="images" />
+                <Folder name="javascripts">
+                    <File name="src\public\javascripts\priority-settings-list.js" />
+                    <File name="src\public\javascripts\ui.js" />
+                </Folder>
+                <Folder name="stylesheets">
+                    <File name="src\public\stylesheets\colors.styl" />
+                    <File name="src\public\stylesheets\dashboard.css" />
+                    <File name="src\public\stylesheets\dashboard.styl" />
+                    <File name="src\public\stylesheets\home.styl" />
+                    <File name="src\public\stylesheets\main.css" />
+                    <File name="src\public\stylesheets\main.styl" />
+                    <File name="src\public\stylesheets\queue.css" />
+                    <File name="src\public\stylesheets\queue.styl" />
+                    <File name="src\public\stylesheets\reset.css" />
+                    <File name="src\public\stylesheets\style.css" />
+                    <File name="src\public\stylesheets\settings.styl" />
+                </Folder>
+            </Folder>
+            <Folder name="routes">
+                <File name="src\routes\auth.js" />
+                <File name="src\routes\home.js" />
+                <File name="src\routes\index.js" />
+                <File name="src\routes\queue.js" />
+            </Folder>
+            <Folder name="views">
+                <File name="src\views\dashboard.jade" />
+                <File name="src\views\error.jade" />
+                <File name="src\views\home.jade" />
+                <File name="src\views\layout.jade" />
+                <File name="src\views\mixins.jade" />
+                <File name="src\views\queue-create.jade" />
+                <File name="src\views\queue-delete-confirm.jade" />
+                <File name="src\views\queue-display.jade" />
+                <File name="src\views\queue-settings.jade" />
+            </Folder>
+            <File name="src\app.js" />
+            <File name="src\config.js" />
+            <File name="src\pq.js" />
+            <File name="src\secrets.js" />
+            <File name="src\urls.js" />
+            <File name="src\utils.js" />
+            <File name="src\log.js" />
+        </Folder>
+        <File name="gamesontwitch" />
+        <File name="package.json" />
+        <Folder name="test" />
+    </Project>
+</NotepadPlus>

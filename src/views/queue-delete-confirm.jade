@@ -1,9 +1,10 @@
 extends layout
 
+block styles
+    +useCSS('/stylesheets/queue.css')
 
 block content
-    p Are you sure you want to delete "#{queue.name}"?
-    #queue-delete-confirm
-        form(method="put", action=urls.queue.delete(queue._id))
-            input(type="hidden", name="_method", value="put")
+    .queue-delete-confirm.absolute-center
+        p Are you sure you want to delete "#{queue.name}"?
+        form(method="post", action=urls.queue.delete(queue._id))
             input.button(type="submit", value="Confirm")

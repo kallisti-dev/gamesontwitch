@@ -1,0 +1,145 @@
+.site-name {
+  color: #121212;
+  font-size: 25px;
+  display: inline;
+  padding-right: 30px;
+}
+body {
+  font: 14px 'Roboto', 'Helvetica World', Helvetica, Arial, sans-serif;
+  background-color: #121212;
+  margin-top: 45px;
+  color: #d0d0d0;
+}
+.main-content {
+  padding: 35px;
+}
+a {
+  color: #dd9e0d;
+  text-decoration: none;
+}
+a:hover {
+  color: #dd0;
+}
+.button {
+  background-color: #070707;
+  border: 1px solid #382e29;
+  color: #dd9e0d;
+  height: 1.8em;
+  outline: none;
+  text-align: center;
+}
+.button:hover {
+  background-color: #19141c;
+  color: #dd0;
+}
+h1 {
+  padding-top: 5px;
+  color: #cc0030;
+  font: 30px 'Merriweather Sans', 'Helvetica World', Helvetica, Arial, sans-serif;
+}
+h2 {
+  color: #990025;
+  font-weight: bold;
+}
+.logo-small {
+  width: 24px;
+  height: 24px;
+}
+.profile-display .logo-small {
+  padding-right: 5px;
+}
+.left,
+.middle,
+.right {
+  position: absolute;
+  display: inline-block;
+}
+.left {
+  left: 0;
+}
+.middle {
+  left: 50%;
+}
+.right {
+  right: 0;
+}
+.absolute-center {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  background-color: #382e29;
+  z-index: 100;
+  min-width: 615px;
+  overflow: hidden;
+  border-bottom: 3px solid #070707;
+  line-height: 150%;
+}
+.navbar .left {
+  padding-left: 10px;
+}
+.navbar .right {
+  padding-right: 20px;
+}
+.navbar .middle {
+  left: 300px;
+}
+.navbar .left,
+.navbar .right,
+.navbar .middle {
+  bottom: 0;
+  padding-bottom: 3px;
+}
+.navbar .logo-small {
+  position: relative;
+}
+.navbar .profile-display {
+  padding-right: 20px;
+}
+.navbar a,
+.navbar .button {
+  font-size: 17px;
+  color: #d0d0d0;
+}
+.navbar a:hover,
+.navbar .button:hover {
+  color: #fff;
+}
+.navbar .button,
+.navbar .button:hover {
+  background-color: transparent;
+}
+.steam-connect-prompt {
+  max-width: 525px;
+  position: relative;
+  left: 30%;
+  text-align: center;
+  margin-bottom: 30px;
+  background-color: #070707;
+}
+.steam-connect-prompt p {
+  margin-bottom: 15px;
+}
+.steam-connect-prompt form {
+  position: relative;
+  left: 35%;
+  height: 30px;
+  width: 150px;
+}

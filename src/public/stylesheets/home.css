@@ -1,0 +1,11 @@
+.home-container {
+  height: 100px;
+  width: 500px;
+  text-align: center;
+}
+.home-container h1 {
+  padding-bottom: 5px;
+}
+.home-container p {
+  padding-bottom: 30px;
+}

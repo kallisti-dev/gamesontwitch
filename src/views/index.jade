@@ -1,9 +1,0 @@
-extends layout
-
-block content
-  p A simple tool to organize Twitch subscriber games.
-  form(action = urls.twitchApi.authorize)
-    each val, key in getTwitchAuthParams(urls.dashboard)
-        input(type="hidden", name=key, value=val)
-    input( type="submit" value="Connect to Twitch")
-  

@@ -1,0 +1,42 @@
+.queue-list-header {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #382e29;
+}
+.queue-list-header * {
+  display: inline-block;
+  padding-right: 10px;
+}
+.queue-create-button {
+  position: relative;
+  height: 25px;
+  bottom: 5px;
+}
+.queue-list {
+  overflow: hidden;
+  list-style-type: none;
+  width: 500px;
+}
+.queue-list,
+.empty-queue-list-msg {
+  padding-top: 15px;
+  padding-left: 25px;
+  padding-bottom: 15px;
+}
+.queue-list-row {
+  position: relative;
+  list-style-position: inside;
+  padding-bottom: 10px;
+  height: 20px;
+}
+.queue-list-col {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.queue-name {
+  color: #dd9e0d;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 380px;
+}

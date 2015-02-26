@@ -1,7 +1,43 @@
+include mixins.jade
+
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    if title
+        title= title
+    unless noCSS
+        unless noFonts
+            +useCSS(
+                'http://fonts.googleapis.com/css?family=Merriweather+Sans',
+                'http://fonts.googleapis.com/css?family=Roboto')
+        +useCSS(
+            '/stylesheets/reset.css', 
+            '/stylesheets/main.css')
+        block styles
+    
+    unless noScripts
+        +useScripts(urls.scripts.urls)   
+        unless noJQuery
+            +useScripts(
+                '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',
+                urls.scripts.ui)
+        block scripts         
+    block head
   body
-    block content
+    unless noNav
+        nav.navbar
+            .left
+                h1.site-name Games on Twitch
+            .middle
+                if user
+                    a(href=urls.dashboard) Dashboard
+            .right
+                if user
+                    a.profile-display(href = "http://twitch.tv/" + user.twitchName + "/profile")
+                        img.logo-small(src = user.twitchLogoUrl)
+                        span.col-text.display-name= user.twitchDisplayName || user.twitchName
+                    a.logout Logout
+                else
+                    +twitchAuth
+    .content
+        block content

@@ -1,13 +1,58 @@
 extends layout
 
+block styles
+    +useCSS('/stylesheets/queue.css')
+
 block content
-    .header
-        p= queue.name
-    form(method="put", action=urls.queue.join(queue._id))
-        input(type="hidden", name="_method", value="put")
-        input.button(type="submit", value="Join Queue")
-    ul
-        each user in userList
-            li= user.twitchName
+    if !user
+        +twitchAuth({
+            text: "Login to join this queue.",
+            returnTo: urls.queue.display(queue._id)
+        }).center
+    else if !user.steamId
+        +steamAuth({text: 'You need to link your twitch account to your steam account to join queues.'}).center
+    .queue-title-row
+        .twitch-logo-medium(src = queue.owner.twitchLogoUrl)
+        .queue-title-col
+            h1.queue-title.header= queue.name
+        if(user)
+            .queue-title-col
+                form(method="post", action=urls.queue.join(queue._id))
+                    input.button(type="submit", value="Join")
+    if queueInfo && queueInfo.length > 0   
+        .queue
+            .queue-row.queue-header
+                .left
+                    .profile-col.queue-col
+                        h2.col-text Twitch Profile
+                    .profile-col.queue-col
+                        h2.col-text Steam Profile
+                .right
+                    .queue-col
+                        h2.col-text Games Played
+                    .queue-col
+                        h2.col-text Last Played
+            ul.queue-contents
+                each info in queueInfo
+                    - var u = info.user;
+                    - var h = info.history;
+                    li.queue-row(class = user && user._id.equals(u._id) ? "highlight" : "")
+                        .left
+                            .profile-col.queue-col
+                                a.profile-display(href = "http://twitch.tv/" + u.twitchName + "/profile")
+                                    img.logo-small(src = user.twitchLogoUrl)
+                                    span.display-namet= u.twitchDisplayName || u.twitchName
+                            .profile-col.queue-col
+                                a.profile-display(href = u.steamProfileUrl)
+                                    img.logo-small(src = u.steamAvatar)
+                                    span.display-name= u.steamDisplayName
+                        .right
+                            .queue-col
+                                span.col-text= h.gamesPlayed
+                            .queue-col
+                                span.col-text= h.lastPlayed || "never"
+    else
+        p This queue is currently empty.
+                    
         
     

@@ -13,7 +13,7 @@ function mkSchema() {
     return new Schema({
     user: Ref('User'),
     channel: Ref('User'),
-    createdAt: Date
+    createdAt: schemaTypes.DefaultDate
     })
     .plugin(findOneOrCreate)
     .index({user: 1, channel: 1}, {unique: true});

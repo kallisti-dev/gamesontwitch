@@ -1,0 +1,135 @@
+@require 'colors'
+
+navbar-height = 45px
+
+.site-name
+    color: bg1
+    font-size: 25px
+    display: inline
+    padding-right: 30px
+body
+  font: 14px 'Roboto', 'Helvetica World', Helvetica, Arial, sans-serif
+  background-color: bg1
+  margin-top: navbar-height
+  color: text-color
+        
+.content
+    padding: 35px
+  
+a
+  color: link-color
+  text-decoration: none
+  
+a:hover
+  color: link-color-highlight
+ 
+.button
+    background-color: bg2
+    border: 1px solid border-color
+    color: link-color
+    height: 1.8 em
+    outline: none
+    text-align: center
+    
+.button:hover
+    background-color: bg3
+    color: link-color-highlight
+    
+  
+h1
+    padding-top: 5px
+    color: header1
+    font: 30px 'Merriweather Sans', 'Helvetica World', Helvetica, Arial, sans-serif
+    
+h2
+    color: header2
+    font-weight: bold
+  
+.logo-small
+    width: 24px
+    height: 24px
+
+.profile-display
+    .logo-small
+        padding-right: 5px
+    
+.left, .middle, .right
+    position: absolute
+    display: inline-block
+    
+.left
+    left: 0
+    
+.middle
+    left: 50%
+    
+.right
+    right: 0
+
+.center
+    text-align: center
+    
+.absolute-center    
+    margin: auto
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    
+h1,h2,h3,h4,h5,h6
+    font-weight: normal
+
+.navbar
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: navbar-height
+    background-color: bg5
+    z-index: 100
+    min-width: 615px
+    overflow: hidden
+    border-bottom: 3px solid bg2
+    line-height: 150%
+    
+    .left
+        padding-left: 10px
+    .right
+        padding-right: 20px
+    .middle
+        left: 300px    
+    .left, .right, .middle
+        bottom: 0
+        padding-bottom: 3px
+        
+    .logo-small
+        position: relative
+        
+    .profile-display
+        padding-right: 20px
+
+    a,.button
+        font-size: 17px
+        color: text-color       
+    a:hover, .button:hover
+        color: white
+    .button, .button:hover
+        background-color: transparent
+
+    
+.steam-connect-prompt
+    max-width: 525px
+    position: relative
+    left: 30%
+    text-align: center
+    p
+        margin-bottom: 15px
+    form
+        position: relative
+        left: 35%
+        height: 30px
+        width: 150px
+    margin-bottom: 30px
+    background-color: bg2
+

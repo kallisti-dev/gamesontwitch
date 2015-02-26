@@ -1,0 +1,39 @@
+.form-field {
+  margin: 5px;
+}
+.form-row .form-field {
+  display: inline-block;
+}
+.form-row .form-field label {
+  margin-right: 8px;
+}
+.settings-form {
+  margin: 20px;
+  max-width: 600px;
+}
+.settings-form h2 {
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.priority-settings-container {
+  margin-left: 23px;
+  margin-top: 10px;
+}
+.priority-settings-container label {
+  display: inline-block;
+  width: 6em;
+}
+.priority-settings-container .button {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.priority-settings-container ul {
+  list-style: none;
+}
+.priority-settings-list {
+  margin-bottom: 10px;
+}
+.form-submit-row {
+  margin-top: 20px;
+}

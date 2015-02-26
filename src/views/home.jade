@@ -1,0 +1,11 @@
+extends layout
+
+block styles
+    +useCSS('/stylesheets/home.css')
+
+block content
+  .home-container.absolute-center
+      h1 Games on Twitch
+      p A simple tool to organize viewer games on Twitch
+      +twitchAuth
+  

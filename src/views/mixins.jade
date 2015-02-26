@@ -1,0 +1,22 @@
+mixin useCSS(...args)
+    each url in [].concat.apply([], args)
+        link(rel='stylesheet', href=url, type='text/css')
+        
+mixin useScripts(...args)
+    each url in [].concat.apply([], args)
+        script(src=url)
+
+mixin auth(options)
+    .connect-prompt&attributes(attributes)
+        if options.text
+            p.connect-prompt-text= options.text
+        form(action = options.authUrl)
+            each val, key in options.params
+                input(type="hidden", name=key, value=val)
+            input.connect-button.button( type="submit", value = options.caption || "Connect")
+
+mixin twitchAuth(options)
+    +auth(twitchAuthOptions(options))&attributes(attributes)
+    
+mixin steamAuth(options)
+    +auth(steamAuthOptions(options))&attributes(attributes)
